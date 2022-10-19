@@ -347,9 +347,10 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 elevation: 0,
                 onPressed: () async {
+/*
                   auth.loginUser(email.text, password.text);
 
-/*
+                  */
                   User? user = await loginUsingEmailPassword(
                       email: email.text,
                       password: password.text,
@@ -376,9 +377,6 @@ class _LoginPageState extends State<LoginPage> {
                       )),
                     );
                   }
-
-
-                  */
                 },
                 fillColor: Colors.blue,
                 shape: RoundedRectangleBorder(
