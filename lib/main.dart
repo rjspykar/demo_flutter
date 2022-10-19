@@ -1,3 +1,4 @@
+import 'package:demo_flutter/controllers/AuthController.dart';
 import 'package:demo_flutter/productmodel.dart';
 import 'package:demo_flutter/profile_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -283,6 +285,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    AuthController auth = AuthController();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -344,6 +347,9 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 elevation: 0,
                 onPressed: () async {
+                  auth.loginUser(email.text, password.text);
+
+/*
                   User? user = await loginUsingEmailPassword(
                       email: email.text,
                       password: password.text,
@@ -351,23 +357,28 @@ class _LoginPageState extends State<LoginPage> {
                   print("dada:  ${user}");
                   if (user != null) {
                     Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ProfileScreen(),
+                      builder: (context) => const ProfileScreen(),
                     ));
                   } else {
                     showDialog(
                       context: context,
                       builder: (tcontext) => (AlertDialog(
-                        title: const Text("My title"),
-                        content: const Text("This is my message."),
+                        //title: const Text("My title"),
+                        title: const Text("Invalid Credentials"),
                         actions: [
                           TextButton(
                             child: const Text("OK"),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context, rootNavigator: true).pop();
+                            },
                           ),
                         ],
                       )),
                     );
                   }
+
+
+                  */
                 },
                 fillColor: Colors.blue,
                 shape: RoundedRectangleBorder(
