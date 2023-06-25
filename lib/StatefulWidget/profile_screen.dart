@@ -1,6 +1,10 @@
+import 'dart:convert';
+
+import 'package:demo_flutter/Bean/productmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../Bean/TODO.dart';
 import '../Bean/TODO.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -11,11 +15,58 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  List<TODO> todoList = [
-    TODO.init('Buy milk'),
-    TODO.init('Do laundry'),
-    TODO.init('Clean the house'),
-  ];
+  List<TODO> todoList = [];
+
+  void func(context) {
+    TextEditingController descController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Add TODO'),
+          content: Column(
+            children: [
+              TextField(
+                controller: descController,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            MaterialButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            MaterialButton(
+              onPressed: () {
+                _addTODO(descController);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Add"),
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the state of the widget's properties.
+    // Register listeners for events.
+    // Make asynchronous requests.
+    Future<List<TODO>> res = TODO().getAllTODOList();
+    setState(() {
+      res.then((value) {
+        todoList = value;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +79,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         itemBuilder: (context, index) {
           TODO todo = todoList[index];
           return CheckboxListTile(
-            value: todo.isCompleted,
+            value: todo.completed,
             title: getText(todo.description),
             subtitle:
                 getText(DateFormat('MMMM d, yyyy hh:mm').format(todo.dateTime)),
             onChanged: (bool? value) {
               setState(() {
-                todo.isCompleted = value!;
+                todo.completed = value!;
               });
               sort();
             },
@@ -42,44 +93,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _addTODO,
+        onPressed: () {
+          func(context);
+        },
         tooltip: 'Add TODO',
         child: const Icon(Icons.add),
       ),
     );
   }
 
-  TextEditingController descController = TextEditingController();
-
-  Future<void> _addTODO() async {
+  void _addTODO(descController) async {
     TODO todo = TODO.init(descController.text);
-    final res = await TODO().save(todo);
 
-    print("printing res");
-    print(res);
-
-    if (res != null) {
-      todoList.add(res);
-      setState(() {});
-      sort();
-      SnackBar snackBar = const SnackBar(
-        content: Text('Successful'),
-        duration: Duration(seconds: 2),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    } else {
-      SnackBar snackBar = const SnackBar(
-        content: Text('Error occured'),
-        duration: Duration(seconds: 2),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    todoList.clear();
+    Future<TODO> todostr = TODO().save(todo);
+    todostr.then((value) {});
+    setState(() {
+      todoList.add(todo);
+      todoList.sort();
+    });
+    SnackBar snackBar = const SnackBar(
+      content: Text('Successful'),
+      duration: Duration(seconds: 2),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget getText(String message) {
@@ -87,9 +123,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void sort() {
-    todoList.sort((a, b) => a.isCompleted == b.isCompleted
+    todoList.sort((a, b) => a.completed == b.completed
         ? -1 * a.dateTime.compareTo(b.dateTime)
-        : a.isCompleted
+        : a.completed
             ? 1
             : -1);
   }
@@ -165,37 +201,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 */
-
-  void func(context) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Add TODO'),
-          content: Column(
-            children: [
-              TextField(
-                controller: descController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            MaterialButton(
-              child: Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            MaterialButton(
-              child: Text("Add"),
-              onPressed: _addTODO,
-            )
-          ],
-        );
-      },
-    );
-  }
 }

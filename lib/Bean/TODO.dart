@@ -1,16 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-List<TODO> welcomeFromJson(String str) =>
-    List<TODO>.from(json.decode(str).map((x) => TODO.fromJson(x)));
-
-String welcomeToJson(List<TODO> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class TODO {
+class TODO implements Comparable<TODO> {
   late int id;
   late String description;
-  late bool isCompleted;
+  late bool completed = false;
   DateTime dateTime = DateTime.now();
 
   static int counter = 1;
@@ -19,32 +13,76 @@ class TODO {
   TODO.allArgs(
     this.id,
     this.description,
-    this.isCompleted,
+    this.completed,
     this.dateTime,
   );
+
+  @override
+  int compareTo(dynamic other) {
+    if (other is TODO) {
+      return this.description.compareTo(other.description);
+    } else {
+      throw Exception('Cannot compare TODO with other');
+    }
+  }
+
+  // This operator overload allows you to access the value of a property in a TODO object using the [] operator.
+  dynamic operator [](String key) {
+    switch (key) {
+      case 'id':
+        return id;
+      case 'description':
+        return description;
+      case 'completed':
+        return completed;
+      case 'dateTime':
+        return dateTime;
+      default:
+        throw ArgumentError('Invalid property: $key');
+    }
+  }
 
   TODO.init(
     String desc,
   ) {
     id = counter++;
     description = desc;
-    isCompleted = false;
+    completed = false;
   }
+/*
+  Future<List<TODO>> getAllTODOList() async {
+    final client = http.Client();
+    var response =
+        await client.get(Uri.parse("http://localhost:8080/getTODOs"));
+
+    print(response.body);
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Future<List<TODO>>;
+    } else {
+      throw Exception('Failed to get TODO list');
+    }
+  }
+  */
 
   Future<List<TODO>> getAllTODOList() async {
     final client = http.Client();
     var response =
         await client.get(Uri.parse("http://localhost:8080/getTODOs"));
 
-    String todolist = response.body;
-    return jsonDecode(todolist);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var todos = List<TODO>.from(jsonData.map((todo) => TODO.fromJson(todo)));
+      return todos;
+    } else {
+      throw Exception('Failed to get TODO list');
+    }
   }
 
-  dynamic save(TODO todo) async {
+  Future<TODO> save(TODO todo) async {
     var client = http.Client();
     var todostr = jsonEncode(todo);
 
-    print("in save");
+    print("in save ||" + todostr);
 
     var response = await client.post(Uri.parse("http://localhost:8080/addTODO"),
         body: todostr,
@@ -56,10 +94,12 @@ class TODO {
     var body = response.body;
     var status = response.statusCode;
 
+    print("body:  " + body);
+
     if (status != 201) {
-      return Future.error('Server error: $status $body');
+      throw Exception("Cannot add item");
     } else {
-      return jsonDecode(body);
+      return TODO.fromJson(jsonDecode(body));
     }
   }
 
@@ -67,7 +107,7 @@ class TODO {
     return {
       'id': id,
       'description': description,
-      'isCompleted': isCompleted,
+      'completed': completed,
       'dateTime': dateTime.toIso8601String(),
     };
   }
@@ -76,29 +116,8 @@ class TODO {
     return TODO.allArgs(
       json['id'],
       json['description'],
-      json['isCompleted'],
+      json['completed'],
       DateTime.parse(json['dateTime']),
     );
   }
-
-/*
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    String str = jsonEncode(todo);
-    List<String>? todolist = sp.getStringList("todos");
-
-    bool flag = true;
-    for (int i = 0; i < todolist!.length; ++i) {
-      TODO item = jsonDecode(todolist[i]);
-      if (item.id == todo.id) {
-        item.description = todo.description;
-        item.isCompleted = todo.isCompleted;
-        todolist[i] = jsonEncode(item);
-        flag = false;
-        break;
-      }
-    }
-    if (flag) todolist!.add(str);
-    sp.setStringList("todos", todolist);
-  }
-  */
 }
