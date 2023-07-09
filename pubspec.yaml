@@ -40,8 +40,13 @@ dependencies:
   shared_preferences: ^2.1.2
   intl: ^0.18.1
   json_annotation: ^4.8.1
-  # firebase_core: ^2.0.0
-  # firebase_auth: ^4.0.1
+  
+
+
+ 
+
+
+
 
 
 dev_dependencies:

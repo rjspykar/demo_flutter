@@ -15,10 +15,7 @@ class AuthController {
 
     if (response.statusCode == 200) {
       var loginArr = json.decode(response.body);
-      print("::: " + loginArr);
-    } else {
-      print("login error");
-    }
+    } else {}
   }
 
 // Register a new user

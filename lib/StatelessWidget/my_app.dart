@@ -12,9 +12,25 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: <String, WidgetBuilder>{
+        '/home': (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Home Route'),
+            ),
+          );
+        },
+        '/about': (BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('About Route'),
+            ),
+          );
+        }
+      },
     );
   }
 }

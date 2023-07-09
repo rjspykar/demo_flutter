@@ -72,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(
               height: 30,
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: RawMaterialButton(
                 padding: const EdgeInsets.symmetric(vertical: 12),
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
                       email: email.text,
                       password: password.text,
                       buildContext: context);
-                  print("dada:  ${user}");
+
                   if (user != null) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const ProfileScreen(),

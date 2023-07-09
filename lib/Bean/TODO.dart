@@ -20,7 +20,7 @@ class TODO implements Comparable<TODO> {
   @override
   int compareTo(dynamic other) {
     if (other is TODO) {
-      return this.description.compareTo(other.description);
+      return description.compareTo(other.description);
     } else {
       throw Exception('Cannot compare TODO with other');
     }
@@ -82,8 +82,6 @@ class TODO implements Comparable<TODO> {
     var client = http.Client();
     var todostr = jsonEncode(todo);
 
-    print("in save ||" + todostr);
-
     var response = await client.post(Uri.parse("http://localhost:8080/addTODO"),
         body: todostr,
         headers: {
@@ -93,8 +91,6 @@ class TODO implements Comparable<TODO> {
 
     var body = response.body;
     var status = response.statusCode;
-
-    print("body:  " + body);
 
     if (status != 201) {
       throw Exception("Cannot add item");

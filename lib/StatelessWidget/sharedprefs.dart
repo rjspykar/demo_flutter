@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPrefs extends StatelessWidget {
   final String name = "";
 
-  SharedPrefs({super.key});
+  const SharedPrefs({super.key});
 
   @override
   Widget build(BuildContext context) {

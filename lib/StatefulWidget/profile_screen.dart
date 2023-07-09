@@ -1,10 +1,6 @@
-import 'dart:convert';
-
-import 'package:demo_flutter/Bean/productmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../Bean/TODO.dart';
 import '../Bean/TODO.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -16,6 +12,7 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   List<TODO> todoList = [];
+  int totalChecked = 0;
 
   void func(context) {
     TextEditingController descController = TextEditingController();
@@ -61,9 +58,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Register listeners for events.
     // Make asynchronous requests.
     Future<List<TODO>> res = TODO().getAllTODOList();
-    setState(() {
-      res.then((value) {
-        todoList = value;
+    res.then((value) {
+      setState(() {
+        todoList.addAll(value);
       });
     });
   }
@@ -85,9 +82,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 getText(DateFormat('MMMM d, yyyy hh:mm').format(todo.dateTime)),
             onChanged: (bool? value) {
               setState(() {
-                todo.completed = value!;
+                if (value!) {
+                  totalChecked++;
+                } else {
+                  totalChecked--;
+                }
+                todo.completed = value;
               });
-              sort();
+              //sort();
             },
           );
         },
@@ -99,6 +101,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         tooltip: 'Add TODO',
         child: const Icon(Icons.add),
       ),
+      persistentFooterButtons: [
+        TextButton(
+            onPressed: () {},
+            child: Text("Total Completed Tasks: " + totalChecked.toString()))
+      ],
+      persistentFooterAlignment: AlignmentDirectional.bottomCenter,
     );
   }
 

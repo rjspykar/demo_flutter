@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../StatelessWidget/ProductList.dart';
 import 'profile_screen.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -12,6 +13,99 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<String> list = List.from({"Data 1", "Data 2", "Data 3"});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("HomePage AppBar"),
+      ),
+      body: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (BuildContext context, int index) {
+            String datatext = list[index];
+            return TextButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                    EdgeInsets.all(56.0),
+                  ),
+                ),
+                onPressed: () => handleButtonClick(context, datatext, index),
+                child: Text(datatext));
+          }),
+      //ProfileScreen(),
+      persistentFooterButtons: [
+        OutlinedButton(onPressed: () {}, child: Text("BUtton 1")),
+        OutlinedButton(onPressed: () {}, child: Text("BUtton 2")),
+        OutlinedButton(onPressed: () {}, child: Text("BUtton 3"))
+      ],
+      persistentFooterAlignment: AlignmentDirectional.center,
+    );
+
+    /*
+    _incrementCounter();
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemCount: arr.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: Colors.greenAccent,
+                          child: Text("${arr[index].id}"),
+                        ),
+                        title: ElevatedButton(
+                          onPressed: () {},
+                          child: Text(
+                            arr[index].title.toString(),
+                          ),
+                        ),
+                        subtitle: Card(
+                          shadowColor: Colors.amberAccent,
+                          color: const Color.fromARGB(255, 212, 214, 215),
+                          child: Column(
+                            children: [
+                              Text(arr[index].category.toString()),
+                              Text(arr[index].description.toString()),
+                            ],
+                          ),
+                        ),
+                        trailing: showDetail(arr[index].id),
+                      );
+                    }),
+              ),
+            ],
+          ),
+        ));
+        */
+  }
+
+  //Button click handler: Show snackbar
+  handleButtonClick(BuildContext context, String datatext, int index) {
+    if (index == 0) {
+      SnackBar snackBar = SnackBar(
+        content: Text(" $datatext pressed"),
+        duration: Duration(seconds: 1),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else if (index == 1) {
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()));
+    } else if (index == 2) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ProductList()));
+    }
+  }
+
   // ignore: unused_field/*  */
   /*
   int _counter = 0;
@@ -68,65 +162,4 @@ class _MyHomePageState extends State<MyHomePage> {
     return firebaseApp;
   }
 */
-
-  @override
-  Widget build(BuildContext context) {
-    FutureBuilder(
-      //future: _initializeFirebase(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          //return const MyHomePage(title: "Umang");
-        }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
-      },
-    );
-
-    return const ProfileScreen();
-    /*
-    _incrementCounter();
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Expanded(
-                child: ListView.builder(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    itemCount: arr.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: Colors.greenAccent,
-                          child: Text("${arr[index].id}"),
-                        ),
-                        title: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            arr[index].title.toString(),
-                          ),
-                        ),
-                        subtitle: Card(
-                          shadowColor: Colors.amberAccent,
-                          color: const Color.fromARGB(255, 212, 214, 215),
-                          child: Column(
-                            children: [
-                              Text(arr[index].category.toString()),
-                              Text(arr[index].description.toString()),
-                            ],
-                          ),
-                        ),
-                        trailing: showDetail(arr[index].id),
-                      );
-                    }),
-              ),
-            ],
-          ),
-        ));
-        */
-  }
 }
