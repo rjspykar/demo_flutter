@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'StatefulWidget/ChatGPTScreen.dart';
 import 'StatefulWidget/profile_screen.dart';
 import 'StatelessWidget/ProductList.dart';
 
@@ -16,18 +17,18 @@ class NavBar extends StatelessWidget {
             accountEmail: Text('example@gmail.com'),
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
-                child: Image.network(
-                  '../images/img1.jpg',
-                  fit: BoxFit.cover,
-                  width: 90,
-                  height: 90,
-                ),
-              ),
+                  // child: Image.network(
+                  //   '../images/img1.jpg',
+                  //   fit: BoxFit.cover,
+                  //   width: 90,
+                  //   height: 90,
+                  // ),
+                  ),
             ),
             decoration: BoxDecoration(
               color: Colors.blue,
-              image: DecorationImage(
-                  fit: BoxFit.fill, image: NetworkImage('../images/img1.jpg')),
+              // image: DecorationImage(
+              //     fit: BoxFit.fill, image: NetworkImage('../images/img1.jpg')),
             ),
           ),
           ListTile(
@@ -71,6 +72,9 @@ class NavBar extends StatelessWidget {
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProductList()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => ChatGPTScreen()));
     }
   }
 }
