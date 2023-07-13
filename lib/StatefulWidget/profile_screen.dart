@@ -104,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       persistentFooterButtons: [
         TextButton(
             onPressed: () {},
-            child: Text("Total Completed Tasks: " + totalChecked.toString()))
+            child: Text("Total Completed Tasks: $totalChecked"))
       ],
       persistentFooterAlignment: AlignmentDirectional.bottomCenter,
     );

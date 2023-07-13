@@ -28,7 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
             return TextButton(
                 style: ButtonStyle(
                   padding: MaterialStateProperty.all<EdgeInsets>(
-                    EdgeInsets.all(56.0),
+                    const EdgeInsets.all(56.0),
                   ),
                 ),
                 onPressed: () => handleButtonClick(context, datatext, index),
@@ -36,9 +36,9 @@ class _MyHomePageState extends State<MyHomePage> {
           }),
       //ProfileScreen(),
       persistentFooterButtons: [
-        OutlinedButton(onPressed: () {}, child: Text("BUtton 1")),
-        OutlinedButton(onPressed: () {}, child: Text("BUtton 2")),
-        OutlinedButton(onPressed: () {}, child: Text("BUtton 3"))
+        OutlinedButton(onPressed: () {}, child: const Text("BUtton 1")),
+        OutlinedButton(onPressed: () {}, child: const Text("BUtton 2")),
+        OutlinedButton(onPressed: () {}, child: const Text("BUtton 3"))
       ],
       persistentFooterAlignment: AlignmentDirectional.center,
     );
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if (index == 0) {
       SnackBar snackBar = SnackBar(
         content: Text(" $datatext pressed"),
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else if (index == 1) {

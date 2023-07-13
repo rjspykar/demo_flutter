@@ -43,7 +43,7 @@ class _ProductListState extends State<ProductList> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Product List"),
+          title: const Text("Product List"),
         ),
         body: ListView.builder(
             itemCount: widget.list.length,
