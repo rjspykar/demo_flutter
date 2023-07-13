@@ -4,16 +4,15 @@ import 'package:demo_flutter/controllers/item_controller.dart';
 import 'package:flutter/material.dart';
 
 class ProductList extends StatefulWidget {
-  const ProductList({super.key});
+  ProductList({super.key});
+  List<Product> list = [];
+  int totalQty = 0;
 
   @override
   State<ProductList> createState() => _ProductListState();
 }
 
 class _ProductListState extends State<ProductList> {
-  List<Product> list = [];
-  int totalQty = 0;
-
   /*
   Create List for getting items.
   createFunction to populate list at initstate();
@@ -24,9 +23,19 @@ class _ProductListState extends State<ProductList> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    list = [];
+    widget.list = [];
     ItemController().fetchData().then((value) => setState(() {
-          list.addAll(value);
+          widget.list.addAll(value);
+        }));
+  }
+
+  @override
+  void didUpdateWidget(covariant ProductList oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    widget.list = [];
+    ItemController().fetchData().then((value) => setState(() {
+          widget.list.addAll(value);
         }));
   }
 
@@ -37,12 +46,14 @@ class _ProductListState extends State<ProductList> {
           title: Text("Product List"),
         ),
         body: ListView.builder(
-            itemCount: list.length,
+            itemCount: widget.list.length,
             itemBuilder: (context, index) {
-              return ProductCard(product: list[index]);
+              return ProductCard(product: widget.list[index]);
             }),
         persistentFooterButtons: [
-          OutlinedButton(onPressed: () {}, child: Text(totalQty.toString())),
+          RawMaterialButton(child: const Text("Save"), onPressed: () {}),
+          OutlinedButton(
+              onPressed: () {}, child: Text(widget.totalQty.toString())),
         ]);
   }
 }

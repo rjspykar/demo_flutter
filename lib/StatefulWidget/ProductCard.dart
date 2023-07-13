@@ -29,35 +29,35 @@ class _ProductCardState extends State<ProductCard> {
           children: [
             Text(
               product.title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 TextButton.icon(
                     onPressed: () {},
-                    icon: Icon(Icons.currency_rupee_rounded),
+                    icon: const Icon(Icons.currency_rupee_rounded),
                     label: Text(product.price.value.toString())),
                 IconButton(
-                  icon: Icon(Icons.favorite_border),
+                  icon: const Icon(Icons.favorite_border),
                   onPressed: () {
                     // Add your favorite button logic here
                   },
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 8,
             ),
-            Cart(),
-            SizedBox(height: 8),
+            Cart(this),
+            const SizedBox(height: 8),
             Text(
               product.category,
-              style: TextStyle(fontSize: 14),
+              style: const TextStyle(fontSize: 14),
             ),
           ],
         ),
