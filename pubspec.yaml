@@ -39,7 +39,7 @@ dependencies:
   http: ^1.0.0
   shared_preferences: ^2.1.2
   intl: ^0.18.1
-  json_annotation: ^4.8.1
+  #json_annotation: ^4.8.1
   
 
 

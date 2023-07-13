@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../StatelessWidget/ProductList.dart';
+import '../navbar.dart';
 import 'profile_screen.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,6 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavBar(),
       appBar: AppBar(
         title: const Text("HomePage AppBar"),
       ),
