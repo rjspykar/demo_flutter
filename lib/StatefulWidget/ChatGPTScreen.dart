@@ -28,15 +28,18 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
       persistentFooterButtons: [
         Row(
           children: [
-            SizedBox(
-              width: 600,
+            Expanded(
               child: TextField(
                 controller: inputcintroller,
-                decoration: const InputDecoration(
-                    label: Text('Enter text.'), prefixIcon: Icon(Icons.search)),
+                decoration: InputDecoration(
+                  hintText: 'Enter search term',
+                ),
               ),
             ),
-            ElevatedButton(onPressed: () {}, child: Text("Go"))
+            ElevatedButton(
+              onPressed: () {},
+              child: Text('Search'),
+            ),
           ],
         )
       ],
