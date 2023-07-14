@@ -1,17 +1,18 @@
-import 'package:demo_flutter/Bean/chatGPTBean.dart';
+import 'package:demo_flutter/Bean/ChatGPTBean.dart';
+import 'package:demo_flutter/controllers/ChatGPTAPI.dart';
 import 'package:flutter/material.dart';
-import '../Bean/chatGPTBean.dart';
+
 import 'ChatGPTResultCard.dart';
 
 class ChatGPTScreen extends StatefulWidget {
   ChatGPTScreen({super.key});
-  List<chatGPTBean> list = [];
+  List<ChatGPTBean> list = [];
 
   @override
   State<ChatGPTScreen> createState() => _ChatGPTScreenState();
 }
 
-var inputcintroller = TextEditingController();
+var inputController = TextEditingController();
 
 class _ChatGPTScreenState extends State<ChatGPTScreen> {
   @override
@@ -30,19 +31,30 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
           children: [
             Expanded(
               child: TextField(
-                controller: inputcintroller,
+                controller: inputController,
                 decoration: InputDecoration(
                   hintText: 'Enter search term',
                 ),
               ),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () => sendToChatGPTAPI(inputController.text),
               child: Text('Search'),
             ),
           ],
         )
       ],
     );
+  }
+
+  void sendToChatGPTAPI(String senderMsg) async {
+    String response = await ChatGPTAPI.sendMessage(senderMsg);
+
+    print(response);
+
+    ChatGPTBean bn = ChatGPTBean(textmsg: senderMsg, resultmsg: response);
+    setState(() {
+      widget.list.add(bn);
+    });
   }
 }

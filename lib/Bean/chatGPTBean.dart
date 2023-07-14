@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-class chatGPTBean {
+class ChatGPTBean {
   final String textmsg;
   final String resultmsg;
-  chatGPTBean({
+  ChatGPTBean({
     required this.textmsg,
     required this.resultmsg,
   });
@@ -17,3 +17,7 @@ class chatGPTBean {
 //           Product(textmsg: json['textmsg'], resultmsg: json['resultmsg']))
 //       .toList();
 // }
+
+
+
+//CharGPT API Key :     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

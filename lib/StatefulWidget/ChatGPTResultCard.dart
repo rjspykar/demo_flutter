@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../Bean/chatGPTBean.dart';
+import '../Bean/ChatGPTBean.dart';
 
 class ChatGPTResultCard extends StatefulWidget {
-  final chatGPTBean chatgptbean;
+  final ChatGPTBean chatgptbean;
 
   const ChatGPTResultCard({super.key, required this.chatgptbean});
 
@@ -13,6 +13,11 @@ class ChatGPTResultCard extends StatefulWidget {
 class _ChatGPTResultCardState extends State<ChatGPTResultCard> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        Text(widget.chatgptbean.textmsg),
+        Text(widget.chatgptbean.resultmsg)
+      ],
+    );
   }
 }
