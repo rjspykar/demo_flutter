@@ -5,6 +5,8 @@ import 'StatefulWidget/profile_screen.dart';
 import 'StatelessWidget/ProductList.dart';
 
 class NavBar extends StatelessWidget {
+  const NavBar({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -12,18 +14,11 @@ class NavBar extends StatelessWidget {
         // Remove padding
         padding: EdgeInsets.zero,
         children: [
-          UserAccountsDrawerHeader(
+          const UserAccountsDrawerHeader(
             accountName: Text('Hello User'),
             accountEmail: Text('example@gmail.com'),
             currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                  // child: Image.network(
-                  //   '../images/img1.jpg',
-                  //   fit: BoxFit.cover,
-                  //   width: 90,
-                  //   height: 90,
-                  // ),
-                  ),
+              child: ClipOval(),
             ),
             decoration: BoxDecoration(
               color: Colors.blue,
@@ -32,33 +27,33 @@ class NavBar extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.edit),
-            title: Text('Add To Do List'),
+            leading: const Icon(Icons.edit),
+            title: const Text('Add To Do List'),
             onTap: () => handleButtonClick(context, 'ToDoList', 1),
 
             //  onTap: ToDoList(),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.production_quantity_limits),
-            title: Text('Product'),
+            leading: const Icon(Icons.production_quantity_limits),
+            title: const Text('Product'),
             onTap: () => handleButtonClick(context, 'Product', 2),
 
             //  onTap: ToDoList(),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.production_quantity_limits),
-            title: Text('ChatGPT Duplicate'),
+            leading: const Icon(Icons.production_quantity_limits),
+            title: const Text('ChatGPT Duplicate'),
             onTap: () => handleButtonClick(context, 'chatgpt', 3),
 
             //  onTap: ToDoList(),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            title: Text('Exit'),
-            leading: Icon(Icons.exit_to_app),
-            onTap: () => null,
+            title: const Text('Exit'),
+            leading: const Icon(Icons.exit_to_app),
+            onTap: () {},
           ),
         ],
       ),

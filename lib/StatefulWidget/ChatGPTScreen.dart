@@ -19,7 +19,7 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chat GPT"),
+        title: const Text("Chat GPT"),
       ),
       body: ListView.builder(
           itemCount: widget.list.length,
@@ -32,14 +32,14 @@ class _ChatGPTScreenState extends State<ChatGPTScreen> {
             Expanded(
               child: TextField(
                 controller: inputController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Enter search term',
                 ),
               ),
             ),
             ElevatedButton(
               onPressed: () => sendToChatGPTAPI(inputController.text),
-              child: Text('Search'),
+              child: const Text('Search'),
             ),
           ],
         )

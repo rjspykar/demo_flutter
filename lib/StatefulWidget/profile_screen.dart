@@ -60,7 +60,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Future<List<TODO>> res = TODO().getAllTODOList();
     res.then((value) {
       setState(() {
+        for (var element in value) {
+          if (element.completed) {
+            totalChecked++;
+          }
+        }
+
         todoList.addAll(value);
+        sort();
       });
     });
   }
@@ -75,21 +82,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
         itemCount: todoList.length,
         itemBuilder: (context, index) {
           TODO todo = todoList[index];
+          int idx = todo.id;
+
           return CheckboxListTile(
+            selected: todo.completed,
             value: todo.completed,
             title: getText(todo.description),
             subtitle:
                 getText(DateFormat('MMMM d, yyyy hh:mm').format(todo.dateTime)),
             onChanged: (bool? value) {
-              setState(() {
-                if (value!) {
+              todo.completed = value!;
+
+              updateTODO(todo);
+
+              todo.completed = value;
+
+              /*
+              if (value!) {
+                setState(() {
                   totalChecked++;
-                } else {
-                  totalChecked--;
-                }
-                todo.completed = value;
-              });
+                });
+              } else {
+                totalChecked--;
+              }
+              todo.completed = value;
               //sort();
+              */
             },
           );
         },
@@ -110,20 +128,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  SnackBar successSnackBar = const SnackBar(
+    content: Text('Successful'),
+    duration: Duration(seconds: 2),
+  );
+  SnackBar failureSnackBar = const SnackBar(
+    content: Text('Add TODO failed'),
+    duration: Duration(seconds: 2),
+  );
+
+  void updateTODO(TODO todo) {
+    Future<bool> result = TODO().update(todo);
+    result.then((value) {
+      if (value!) {
+        setState(() {
+          totalChecked++;
+        });
+      } else {
+        totalChecked--;
+      }
+    });
+  }
+
   void _addTODO(descController) async {
     TODO todo = TODO.init(descController.text);
-
     Future<TODO> todostr = TODO().save(todo);
-    todostr.then((value) {});
-    setState(() {
-      todoList.add(todo);
-      todoList.sort();
+
+    todostr.then((value) {
+      setState(() {
+        todoList.add(value);
+        todoList.sort();
+      });
+    }).then((value) {
+      ScaffoldMessenger.of(context).showSnackBar(successSnackBar);
+    }).onError((error, stackTrace) {
+      ScaffoldMessenger.of(context).showSnackBar(failureSnackBar);
     });
-    SnackBar snackBar = const SnackBar(
-      content: Text('Successful'),
-      duration: Duration(seconds: 2),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   Widget getText(String message) {
@@ -137,76 +177,4 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ? 1
             : -1);
   }
-
-/*
-  void addTODO() {
-    TextEditingController descController = TextEditingController();
-
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: getText('Add TODO'),
-          content: Column(
-            children: [
-              TextField(
-                controller: descController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
-                ),
-              ),
-            ],
-          ),
-          actions: [
-            MaterialButton(
-              child: getText('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            MaterialButton(
-              child: getText("Add"),
-              onPressed: () async {
-                TODO todo = TODO.init(
-                  descController.text,
-                );
-                Future<TODO> res = todo.save(todo);
-
-                print(res);
-
-                res.then((value) {
-                  print("1");
-                  print(value);
-
-                  todoList.add(value);
-                  SnackBar snackBar = const SnackBar(
-                    content: Text('Successful'),
-                    duration: Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  Navigator.of(context).pop();
-                }, onError: (value) {
-                  print("2");
-                  print(value);
-                  SnackBar snackBar = const SnackBar(
-                    content: Text('Error occured'),
-                    duration: Duration(seconds: 2),
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                });
-
-                /*
-                setState(() {
-                  todoList.add(res);
-                });
-                sort();
-                */
-              },
-            )
-          ],
-        );
-      },
-    );
-  }
-*/
 }

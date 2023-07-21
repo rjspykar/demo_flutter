@@ -19,7 +19,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavBar(),
+      drawer: const NavBar(),
       appBar: AppBar(
         title: const Text("HomePage AppBar"),
       ),

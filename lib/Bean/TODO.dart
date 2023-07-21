@@ -49,20 +49,6 @@ class TODO implements Comparable<TODO> {
     description = desc;
     completed = false;
   }
-/*
-  Future<List<TODO>> getAllTODOList() async {
-    final client = http.Client();
-    var response =
-        await client.get(Uri.parse("http://localhost:8080/getTODOs"));
-
-    print(response.body);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body) as Future<List<TODO>>;
-    } else {
-      throw Exception('Failed to get TODO list');
-    }
-  }
-  */
 
   Future<List<TODO>> getAllTODOList() async {
     final client = http.Client();
@@ -75,6 +61,31 @@ class TODO implements Comparable<TODO> {
       return todos;
     } else {
       throw Exception('Failed to get TODO list');
+    }
+  }
+
+  Future<bool> update(TODO todo) async {
+    final client = http.Client();
+    var todostr = jsonEncode(todo);
+
+    var resp = await client.post(Uri.parse("http://localhost:8080/updateTODO"),
+        body: todostr,
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json"
+        });
+
+    //var body = resp.body;
+    var status = resp.statusCode;
+
+    if (status == 201) {
+      //Created
+      return true;
+    } else if (status == 304) {
+      //Not Modified
+      return false;
+    } else {
+      throw Exception("Failed to update TODO");
     }
   }
 

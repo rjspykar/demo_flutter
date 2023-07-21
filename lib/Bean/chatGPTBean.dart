@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class ChatGPTBean {
   final String textmsg;
   final String resultmsg;
