@@ -6,7 +6,7 @@ import 'ChatGPTResultCard.dart';
 
 class ChatGPTScreen extends StatefulWidget {
   ChatGPTScreen({super.key});
-  List<ChatGPTBean> list = [];
+  final List<ChatGPTBean> list = [];
 
   @override
   State<ChatGPTScreen> createState() => _ChatGPTScreenState();

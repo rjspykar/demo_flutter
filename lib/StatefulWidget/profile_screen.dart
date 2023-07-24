@@ -82,7 +82,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         itemCount: todoList.length,
         itemBuilder: (context, index) {
           TODO todo = todoList[index];
-          int idx = todo.id;
 
           return CheckboxListTile(
             selected: todo.completed,
@@ -140,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void updateTODO(TODO todo) {
     Future<bool> result = TODO().update(todo);
     result.then((value) {
-      if (value!) {
+      if (value) {
         setState(() {
           totalChecked++;
         });
