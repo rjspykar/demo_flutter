@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../Bean/Item.dart';
-import 'Cart.dart';
+import '../Bean/item.dart';
+import 'cart.dart';
 
 class ProductCard extends StatefulWidget {
   const ProductCard({super.key, required this.product});

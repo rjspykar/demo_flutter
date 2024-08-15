@@ -9,7 +9,30 @@ void main() {
   runApp(const MyApp());
 }
 
+/*
 
+Main function
+  runApp ( -> Widget)
+
+Widget
+  Text, Button, Screen, Dropdown, etc.....
+  Parent class.
+  Text inherits Widget.
+
+  2 types:
+  Stateless widget.
+    No state.
+    Static.
+  Stateful Widget.
+    State.
+    Value =1 -> 1 state
+    Value=2 -> 2nd state.
+
+    counter -> increment, decrement.
+    change.
+
+
+*/
 /* *
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

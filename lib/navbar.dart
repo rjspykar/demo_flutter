@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'StatefulWidget/ChatGPTScreen.dart';
+import 'StatefulWidget/chatGPTScreen.dart';
 import 'StatefulWidget/profile_screen.dart';
-import 'StatelessWidget/ProductList.dart';
+import 'StatelessWidget/product_list.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});

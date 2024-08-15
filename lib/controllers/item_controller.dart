@@ -1,4 +1,4 @@
-import 'package:demo_flutter/Bean/Item.dart';
+import 'package:demo_flutter/Bean/item.dart';
 import 'package:http/http.dart' as http;
 
 class ItemController {

@@ -1,8 +1,8 @@
-import 'package:demo_flutter/Bean/ChatGPTBean.dart';
-import 'package:demo_flutter/controllers/ChatGPTAPI.dart';
+import 'package:demo_flutter/Bean/chatGPTBean.dart';
+import 'package:demo_flutter/controllers/chatGPTAPI.dart';
 import 'package:flutter/material.dart';
 
-import 'ChatGPTResultCard.dart';
+import 'chatGPTResultCard.dart';
 
 class ChatGPTScreen extends StatefulWidget {
   ChatGPTScreen({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../StatelessWidget/ProductList.dart';
+import '../StatelessWidget/product_list.dart';
 import '../navbar.dart';
 import 'profile_screen.dart';
 

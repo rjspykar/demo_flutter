@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../Bean/ChatGPTBean.dart';
+import '../Bean/chatGPTBean.dart';
 
 class ChatGPTResultCard extends StatefulWidget {
   final ChatGPTBean chatgptbean;

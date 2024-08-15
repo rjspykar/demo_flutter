@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Bean/User.dart';
+import '../Bean/user.dart';
 import 'profile_screen.dart';
 
 class LoginPage extends StatefulWidget {
@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                           TextButton(
                             child: const Text("OK"),
                             onPressed: () {
-                              Navigator.of(context, rootNavigator: true).pop();
+                              Navigator.pop(context);
                             },
                           ),
                         ],
