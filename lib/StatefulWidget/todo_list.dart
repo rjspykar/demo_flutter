@@ -94,19 +94,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               updateTODO(todo);
 
-              todo.completed = value;
+              //todo.completed = value;
 
-              /*
-              if (value!) {
-                setState(() {
-                  totalChecked++;
-                });
-              } else {
-                totalChecked--;
-              }
-              todo.completed = value;
               //sort();
-              */
             },
           );
         },
@@ -131,6 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     content: Text('Successful'),
     duration: Duration(seconds: 2),
   );
+
   SnackBar failureSnackBar = const SnackBar(
     content: Text('Add TODO failed'),
     duration: Duration(seconds: 2),
@@ -138,27 +129,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void updateTODO(TODO todo) {
     Future<bool> result = TODO().update(todo);
+
     result.then((value) {
-      if (value) {
+      if (todo.completed) {
         setState(() {
           totalChecked++;
         });
       } else {
-        totalChecked--;
+        setState(() {
+          totalChecked--;
+        });
       }
     });
   }
 
-  void _addTODO(descController) async {
+  void _addTODO(TextEditingController descController) {
     TODO todo = TODO.init(descController.text);
-    Future<TODO> todostr = TODO().save(todo);
-
-    todostr.then((value) {
+    TODO().save(todo).then((savedTodo) {
       setState(() {
-        todoList.add(value);
-        todoList.sort();
+        todoList.add(savedTodo);
+        sort();
       });
-    }).then((value) {
       ScaffoldMessenger.of(context).showSnackBar(successSnackBar);
     }).onError((error, stackTrace) {
       ScaffoldMessenger.of(context).showSnackBar(failureSnackBar);

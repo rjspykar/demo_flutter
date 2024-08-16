@@ -52,15 +52,20 @@ class TODO implements Comparable<TODO> {
 
   Future<List<TODO>> getAllTODOList() async {
     final client = http.Client();
-    var response =
-        await client.get(Uri.parse("http://localhost:8080/getTODOs"));
+    try {
+      var response =
+          await client.get(Uri.parse("http://localhost:8080/getTODOs"));
 
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      var todos = List<TODO>.from(jsonData.map((todo) => TODO.fromJson(todo)));
-      return todos;
-    } else {
-      throw Exception('Failed to get TODO list');
+      if (response.statusCode == 200) {
+        var jsonData = jsonDecode(response.body);
+        return List<TODO>.from(jsonData.map((todo) => TODO.fromJson(todo)));
+      } else {
+        throw Exception('Failed to get TODO list: ${response.reasonPhrase}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching TODO list: $e');
+    } finally {
+      client.close();
     }
   }
 
