@@ -1,3 +1,4 @@
+import 'package:demo_flutter/StatefulWidget/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../StatelessWidget/product_list.dart';
@@ -14,7 +15,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> list = List.from({"Data 1", "Data 2", "Data 3"});
+  List<String> list =
+      List.from({"Alert Demo", "TODO List", "Product List", "Login Page"});
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProductList()));
+    } else if (index == 3) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => LoginPage()));
     }
   }
 

@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       password: password.text,
                       buildContext: context);
 
-                  if (user != null) {
+                  if (user == null) {
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => const ProfileScreen(),
                     ));
