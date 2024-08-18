@@ -14,7 +14,7 @@ class AuthController {
     );
 
     if (response.statusCode == 200) {
-      var loginArr = json.decode(response.body);
+      //var loginArr = json.decode(response.body);
     } else {}
   }
 

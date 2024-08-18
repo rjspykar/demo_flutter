@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+class GoogleSignInProvider {
+  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email', 'profile']);
+  final FlutterSecureStorage _storage = FlutterSecureStorage();
+
+  Future<void> signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      if (googleUser == null) {
+        // User cancelled the sign-in process
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+      // Send the idToken or accessToken to your backend
+      final String? idToken = googleAuth.idToken;
+
+      if (idToken != null) {
+        final response = await _authenticateWithBackend(idToken);
+        if (response.statusCode == 200) {
+          // Save the JWT token securely
+          await _storage.write(key: 'jwt', value: response.body);
+          Navigator.pushReplacementNamed(context, '/home'); // Navigate to the home page
+        } else {
+          // Handle authentication failure
+          _showErrorDialog(context, "Authentication failed");
+        }
+      }
+    } catch (e) {
+      _showErrorDialog(context, e.toString());
+    }
+  }
+
+  Future<http.Response> _authenticateWithBackend(String idToken) {
+    return http.post(
+      Uri.parse('http://localhost:8080/oauth2/login'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'token': idToken,
+      }),
+    );
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text('Error'),
+        content: Text(message),
+        actions: <Widget>[
+          TextButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}

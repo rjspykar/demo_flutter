@@ -1,0 +1,30 @@
+import 'package:google_sign_in/google_sign_in.dart';
+
+final GoogleSignIn _googleSignIn = GoogleSignIn(
+  scopes: ['email'],
+);
+
+Future<void> _handleSignIn() async {
+  try {
+    final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+    if (googleUser == null) return;  // User canceled the sign-in
+
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+    // Pass the accessToken to your backend server
+    final response = await http.post(
+      Uri.parse('http://your-backend-server/oauth2/callback'),
+      body: jsonEncode(<String, String>{
+        'accessToken': googleAuth.accessToken!,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // Handle successful login
+    } else {
+      // Handle login failure
+    }
+  } catch (error) {
+    print(error);
+  }
+}

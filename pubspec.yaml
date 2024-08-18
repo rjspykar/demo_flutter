@@ -40,6 +40,10 @@ dependencies:
   shared_preferences: ^2.1.2
   intl: ^0.18.1
   #json_annotation: ^4.8.1
+
+
+  google_sign_in: ^5.4.2  # For Google Sign-In
+  flutter_secure_storage: ^5.0.2  # For storing tokens securely
   
 
 
