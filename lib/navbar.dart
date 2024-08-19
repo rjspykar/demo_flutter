@@ -61,15 +61,7 @@ class NavBar extends StatelessWidget {
   }
 
   handleButtonClick(BuildContext context, String datatext, int index) {
-    if (index == 1) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ProfileScreen()));
-    } else if (index == 2) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ProductList()));
-    } else if (index == 3) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => ChatGPTScreen()));
-    }
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const TODOListScreen()));
   }
 }

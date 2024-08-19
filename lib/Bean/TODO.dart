@@ -56,14 +56,20 @@ class TODO implements Comparable<TODO> {
       var response =
           await client.get(Uri.parse("http://localhost:8080/getTODOs"));
 
+      print('response: $response');
+
       if (response.statusCode == 200) {
         var jsonData = jsonDecode(response.body);
         return List<TODO>.from(jsonData.map((todo) => TODO.fromJson(todo)));
       } else {
-        throw Exception('Failed to get TODO list: ${response.reasonPhrase}');
+        //throw Exception('Failed to get TODO list: ${response.reasonPhrase}');
+        print('Failed to get TODO list: ${response.reasonPhrase}');
+        return List.empty();
       }
     } catch (e) {
-      throw Exception('Error fetching TODO list: $e');
+      print('$e');
+      return List.empty();
+      //throw Exception('Error fetching TODO list: $e');
     } finally {
       client.close();
     }

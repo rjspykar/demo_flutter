@@ -88,10 +88,15 @@ class _LoginPageState extends State<LoginPage> {
                       buildContext: context);
 
                   if (user == null) {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ProfileScreen(),
-                    ));
+                    SnackBar snackBar = const SnackBar(
+                      content: Text("Invalid Email and Password"),
+                      duration: Duration(seconds: 2),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   } else {
+                    Navigator.pushReplacementNamed(context, '/home');
+
+                    /*
                     showDialog(
                       context: context,
                       builder: (tcontext) => (AlertDialog(
@@ -107,6 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       )),
                     );
+
+                    */
                   }
                 },
                 fillColor: Colors.blue,
@@ -197,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                 print("dada:  ${user}");
                 if (user != null) {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ProfileScreen(),
+                    builder: (context) => TODOListScreen(),
                   ));
                 } else {
                   showDialog(
@@ -237,21 +244,14 @@ class _LoginPageState extends State<LoginPage> {
       {required String email,
       required String password,
       required BuildContext buildContext}) async {
-    return null;
-
-    /* FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
     try {
-      print("Inside function");
-      UserCredential userCredential = await auth.signInWithEmailAndPassword(
-          email: email, password: password);
-      var user;
-      user = userCredential.user;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        print("No email for user");
-      }
+      var user = User(email, password);
+
+      if (email == 'abc' && password == '123') return user;
+    } on Exception catch (e) {
+      print(e);
     }
-    return user; */
+    return user;
   }
 }

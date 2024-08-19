@@ -1,5 +1,6 @@
 import 'package:demo_flutter/StatefulWidget/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../StatelessWidget/product_list.dart';
 import '../navbar.dart';
@@ -15,8 +16,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<String> list =
-      List.from({"Alert Demo", "TODO List", "Product List", "Login Page"});
+  List<String> list = List.from({"TODO List"});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,19 @@ class _MyHomePageState extends State<MyHomePage> {
       drawer: const NavBar(),
       appBar: AppBar(
         title: const Text("HomePage AppBar"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false);
+
+              // Navigate back to the login page
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
           itemCount: list.length,
@@ -38,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: () => handleButtonClick(context, datatext, index),
                 child: Text(datatext));
           }),
-      //ProfileScreen(),
+      //TODOListScreen(),
       persistentFooterButtons: [
         OutlinedButton(onPressed: () {}, child: const Text("BUtton 1")),
         OutlinedButton(onPressed: () {}, child: const Text("BUtton 2")),
@@ -101,9 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
         duration: const Duration(seconds: 1),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const TODOListScreen()));
     } else if (index == 1) {
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const ProfileScreen()));
+          MaterialPageRoute(builder: (context) => const TODOListScreen()));
     } else if (index == 2) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => ProductList()));

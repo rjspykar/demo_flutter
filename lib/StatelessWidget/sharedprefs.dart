@@ -22,7 +22,7 @@ class SharedPrefs extends StatelessWidget {
                 future: getName(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(const ProfileScreen().toString());
+                    return Text(const TODOListScreen().toString());
                   } else {
                     return const Text('Loading...');
                   }

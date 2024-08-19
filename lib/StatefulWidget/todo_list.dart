@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Bean/todo.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class TODOListScreen extends StatefulWidget {
+  const TODOListScreen({super.key});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  _TODOListScreenState createState() => _TODOListScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _TODOListScreenState extends State<TODOListScreen> {
   List<TODO> todoList = [];
   int totalChecked = 0;
 
@@ -77,6 +78,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: getText('TODO List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              final SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+              await prefs.setBool('isLoggedIn', false);
+
+              // Navigate back to the login page
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+          ),
+        ],
       ),
       body: ListView.builder(
         itemCount: todoList.length,
