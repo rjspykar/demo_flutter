@@ -181,9 +181,14 @@ void showEditTODODialog(TODO todo) {
     });
   }
   //delete
-  void _deleteTODO(TODO todo) {
- print('iiiiiii');
-}
+  void _deleteTODO(TODO todo){
+    setState(() {
+      todoList.remove(todo);
+      if(todo.completed){
+        totalChecked--;
+      }
+    });
+  }
 //update
 void _updateTODODescription(TODO todo, String newDescription) {
     setState(() {
