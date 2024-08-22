@@ -50,6 +50,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+//edit
+void showEditTODODialog(TODO todo) {
+    TextEditingController descController = TextEditingController(text: todo.description);
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Edit TODO'),
+          content: TextField(
+            controller: descController,
+            decoration: const InputDecoration(
+              labelText: 'Description',
+            ),
+          ),
+          actions: [
+            TextButton(
+              child: const Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              onPressed: () {
+                _updateTODODescription(todo, descController.text);
+                Navigator.of(context).pop();
+              },
+              child: const Text("Save"),
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -83,21 +116,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
         itemBuilder: (context, index) {
           TODO todo = todoList[index];
 
-          return CheckboxListTile(
+          return ListTile(
+            onTap: () => showEditTODODialog(todo),
+          title: CheckboxListTile(
             selected: todo.completed,
             value: todo.completed,
             title: getText(todo.description),
-            subtitle:
-                getText(DateFormat('MMMM d, yyyy hh:mm').format(todo.dateTime)),
+            subtitle: getText(DateFormat('MMMM d, yyyy hh:mm').format(todo.dateTime)),
             onChanged: (bool? value) {
-              todo.completed = value!;
-
-              updateTODO(todo);
-
-              //todo.completed = value;
-
-              //sort();
+              setState(() {
+                todo.completed = value!;
+                updateTODO(todo);
+              });
             },
+          ),
+        trailing:  IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: (){
+                _deleteTODO(todo);
+              },
+            )
           );
         },
       ),
@@ -142,7 +180,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     });
   }
-
+  //delete
+  void _deleteTODO(TODO todo) {
+ print('iiiiiii');
+}
+//update
+void _updateTODODescription(TODO todo, String newDescription) {
+    setState(() {
+      todo.description = newDescription;
+      updateTODO(todo);
+    });
+  }
   void _addTODO(TextEditingController descController) {
     TODO todo = TODO.init(descController.text);
     TODO().save(todo).then((savedTodo) {
