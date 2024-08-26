@@ -180,9 +180,8 @@ void showEditTODODialog(TODO todo) {
       }
     });
   }
-  //delete
+  
   void _deleteTODO(TODO todo) {
-  // Send DELETE request to backend with the TODO object
   TODO().delete(todo).then((success) {
     if (success) {
       setState(() {
