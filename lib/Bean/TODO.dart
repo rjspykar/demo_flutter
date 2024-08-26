@@ -68,6 +68,30 @@ class TODO implements Comparable<TODO> {
       client.close();
     }
   }
+//delete
+Future<bool> delete(TODO todo) async {
+  final client = http.Client();
+  try {
+    final response = await client.delete(
+      Uri.parse("http://localhost:8080/deleteTODO"),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      },
+      body: jsonEncode(todo.toJson()),
+    );
+
+    if (response.statusCode == 204) {
+      return true;
+    } else {
+      return false; 
+    }
+  } catch (e) {
+    throw Exception("Error deleting TODO: $e");
+  } finally {
+    client.close();
+  }
+}
 
   Future<bool> update(TODO todo) async {
     final client = http.Client();

@@ -181,21 +181,42 @@ void showEditTODODialog(TODO todo) {
     });
   }
   //delete
-  void _deleteTODO(TODO todo){
-    setState(() {
-      todoList.remove(todo);
-      if(todo.completed){
-        totalChecked--;
-      }
-    });
-  }
+  void _deleteTODO(TODO todo) {
+  // Send DELETE request to backend with the TODO object
+  TODO().delete(todo).then((success) {
+    if (success) {
+      setState(() {
+        todoList.remove(todo);
+        sort();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('TODO item successfully deleted'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Failed to delete TODO item'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  });
+}
+
+
+
 //update
 void _updateTODODescription(TODO todo, String newDescription) {
     setState(() {
-      todo.description = newDescription;
-      updateTODO(todo);
+        todo.description = newDescription;
+        updateTODO(todo); // This will send the entire TODO object to the backend
+        
     });
-  }
+}
+
   void _addTODO(TextEditingController descController) {
     TODO todo = TODO.init(descController.text);
     TODO().save(todo).then((savedTodo) {
